@@ -12,15 +12,15 @@ const images = {
 
 storiesOf('Rating', module)
   .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
-  .add('Default', () => (
-    <Rating
+  .add('Default', () =>
+    (<Rating
       onChange={action('selected')}
       selectedStar={images.starFilled}
       unselectedStar={images.starUnfilled}
-    />
-  ))
-  .add('Custom', () => (
-    <Rating
+    />)
+  )
+  .add('Custom', () =>
+    (<Rating
       max={6}
       initial={2}
       onChange={action('selected')}
@@ -38,5 +38,5 @@ storiesOf('Rating', module)
         backgroundColor: '#5e23dc'
       }}
       containerStyle={{ flexDirection: 'column' }}
-    />
-  ))
+    />)
+  )
