@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
@@ -8,6 +7,7 @@ import {
   Easing,
   ViewPropTypes
 } from 'react-native'
+import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   image: {
@@ -124,8 +124,8 @@ export default class Stars extends PureComponent {
     )
   }
 
-  renderStar = index => (
-    <TouchableWithoutFeedback key={index} onPress={this.animate(index + 1)}>
+  renderStar = (value, index) =>
+    (<TouchableWithoutFeedback key={index} onPress={this.animate(index + 1)}>
       <View style={this.props.starStyle}>
         <View style={styles.imageContainer}>
           <Animated.Image
@@ -152,13 +152,12 @@ export default class Stars extends PureComponent {
           />
         </View>
       </View>
-    </TouchableWithoutFeedback>
-  )
+    </TouchableWithoutFeedback>)
 
   render() {
     return (
       <View style={this.props.containerStyle}>
-        {this.animatedValues.map((value, index) => this.renderStar(index))}
+        {this.animatedValues.map(this.renderStar)}
       </View>
     )
   }
