@@ -1,0 +1,84 @@
+{
+  "name": "react-native-rating",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint:js": "eslint src storybook",
+    "prepush": "concurrently --prefix '[{name}]' --names 'LINT:JS,TEST' 'npm run lint:js' 'npm run test'",
+    "lintfix": "eslint --fix src storybook",
+    "storybook": "storybook start -p 7007",
+    "format": "prettier-eslint --write \"src/**/*.js\" \"storybook/**/*.js\"",
+    "precommit": "lint-staged",
+    "cz": "git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/f0rr0/react-native-rating.git"
+  },
+  "author": "Siddharth Jain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/f0rr0/react-native-rating/issues"
+  },
+  "homepage": "https://github.com/f0rr0/react-native-rating#readme",
+  "dependencies": {
+    "prop-types": "^15.5.10"
+  },
+  "devDependencies": {
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "@storybook/addon-actions": "^3.0.0",
+    "@storybook/addon-storyshots": "^3.0.0",
+    "@storybook/react-native": "^3.0.0",
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "^20.0.3",
+    "commitizen": "^2.9.6",
+    "concurrently": "^3.4.0",
+    "cz-conventional-changelog": "^2.0.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
+    "eslint-plugin-react-native": "^2.3.2",
+    "husky": "^0.13.4",
+    "jest": "^20.0.4",
+    "lint-staged": "^3.6.0"
+  },
+  "peerDependencies": {
+    "react-native": "^0.44.3"
+  },
+  "jest": {
+    "preset": "react-native",
+    "verbose": true,
+    "modulePaths": [
+      "<rootDir>/src/"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/node_modules/react-native/Libraries/react-native/",
+      "<rootDir>/node_modules/react-native/packager/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native/*)"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier-eslint --write",
+      "git add"
+    ],
+    "storybook/**/*.js": [
+      "prettier-eslint --write",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
