@@ -2,7 +2,7 @@
   "name": "react-native-rating",
   "version": "1.0.0",
   "description": "A stars rating component for react-native built with the Animated API",
-  "main": "index.js",
+  "main": "./src/rating.js",
   "scripts": {
     "test": "jest",
     "prepush": "npm run test",
@@ -16,7 +16,17 @@
     "url": "git+https://github.com/f0rr0/react-native-rating.git"
   },
   "author": "Siddharth Jain",
-  "license": "ISC",
+  "keywords": [
+    "react-native-component",
+    "react-component",
+    "react-native",
+    "stars",
+    "rating",
+    "favourite",
+    "favorite",
+    "stars-rating"
+  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/f0rr0/react-native-rating/issues"
   },
