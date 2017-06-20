@@ -47,7 +47,7 @@ const createAnimations = (config, values, prev, curr) => {
     .reverse()
 }
 
-export default class Stars extends PureComponent {
+export default class Rating extends PureComponent {
   static propTypes = {
     max: PropTypes.number,
     initial: PropTypes.number,
