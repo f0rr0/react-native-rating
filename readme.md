@@ -3,7 +3,7 @@
 > Display ratings in your react-native app like a pro. Works on both iOS and Android.
 
 <p align="center">
-![alt text](./assets/rating.gif)
+  <img src="./assets/rating.gif" align="center" alt="" height="400"/>
 </p>
 
 ### Install
