@@ -14,10 +14,11 @@ or
 ### Usage
 ```js
 import Rating from 'react-native-rating'
+import { Easing } from 'react-native'
 
 const images = {
   starFilled: require('./assets/star_filled.png'),
-  starUnfilled: require('../assets/star_unfilled.png')
+  starUnfilled: require('./assets/star_unfilled.png')
 }
 
 const myRandoComponent = () => (
