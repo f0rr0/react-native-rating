@@ -16,7 +16,7 @@ or
 import Rating from 'react-native-rating'
 
 const myRandoComponent = () => (
-  <Stars
+  <Rating
     onChange={rating => console.log(rating)}
     selectedStar={images.starFilled}
     unselectedStar={images.starUnfilled}
