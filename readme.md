@@ -15,6 +15,11 @@ or
 ```js
 import Rating from 'react-native-rating'
 
+const images = {
+  starFilled: require('./assets/star_filled.png'),
+  starUnfilled: require('../assets/star_unfilled.png')
+}
+
 const myRandoComponent = () => (
   <Rating
     onChange={rating => console.log(rating)}
