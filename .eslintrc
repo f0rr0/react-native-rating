@@ -21,6 +21,10 @@
         ]
       }
     ],
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "global-require": "off",
     "jsx-quotes": [
       "error",
       "prefer-double"
@@ -43,7 +47,6 @@
         "array": false,
         "object": true
       }
-    ],
-    "import/prefer-default-export": 0
+    ]
   }
 }

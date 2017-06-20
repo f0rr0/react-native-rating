@@ -8,7 +8,6 @@
     "lint:js": "eslint src storybook",
     "prepush": "concurrently --prefix '[{name}]' --names 'LINT:JS,TEST' 'npm run lint:js' 'npm run test'",
     "lintfix": "eslint --fix src storybook",
-    "storybook": "storybook start -p 7007",
     "format": "prettier-eslint --write \"src/**/*.js\" \"storybook/**/*.js\"",
     "precommit": "lint-staged",
     "cz": "git-cz"
@@ -27,9 +26,6 @@
     "prop-types": "^15.5.10"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.0.0",
-    "@storybook/addon-storyshots": "^3.0.0",
-    "@storybook/react-native": "^3.0.0",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-preset-react-native-stage-0": "^1.0.1",
@@ -45,10 +41,12 @@
     "husky": "^0.13.4",
     "jest": "^20.0.4",
     "lint-staged": "^3.6.0",
-    "prettier-eslint-cli": "^4.1.1"
+    "prettier-eslint-cli": "^4.1.1",
+    "react-test-renderer": ">=16.0.0-alpha.6"
   },
   "peerDependencies": {
-    "react-native": "^0.44.3"
+    "react-native": ">=0.44.3",
+    "react": ">=16.0.0-alpha.6"
   },
   "jest": {
     "preset": "react-native",
