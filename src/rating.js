@@ -61,7 +61,8 @@ export default class Rating extends PureComponent {
     starStyle: ViewPropTypes.style,
     containerStyle: ViewPropTypes.style,
     selectedStar: PropTypes.number.isRequired,
-    unselectedStar: PropTypes.number.isRequired
+    unselectedStar: PropTypes.number.isRequired,
+    onAnimationComplete: PropTypes.func
   }
 
   static defaultProps = {
@@ -77,7 +78,8 @@ export default class Rating extends PureComponent {
       width: 36,
       height: 36
     },
-    containerStyle: { flexDirection: 'row' }
+    containerStyle: { flexDirection: 'row' },
+    onAnimationComplete: () => {}
   }
 
   constructor(props) {
@@ -111,7 +113,7 @@ export default class Rating extends PureComponent {
   animatedValues = initializeAnimatedValues(this.props.max, this.props.initial)
 
   animate = curr => () => {
-    const { config, stagger, onChange } = this.props
+    const { config, stagger, onChange, onAnimationComplete } = this.props
     const animations = createAnimations(config, this.animatedValues, this.state.selected, curr)
     this.setState(
       () => ({
@@ -119,7 +121,7 @@ export default class Rating extends PureComponent {
       }),
       () => {
         onChange(this.state.selected)
-        Animated.stagger(stagger, animations).start()
+        Animated.stagger(stagger, animations).start(() => onAnimationComplete(this.state.selected))
       }
     )
   }
