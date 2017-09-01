@@ -51,7 +51,7 @@ export default class Rating extends PureComponent {
   static propTypes = {
     max: PropTypes.number,
     initial: PropTypes.number,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     config: PropTypes.shape({
       easing: PropTypes.func.isRequired,
       duration: PropTypes.number.isRequired
@@ -68,6 +68,7 @@ export default class Rating extends PureComponent {
   static defaultProps = {
     max: 5,
     initial: 0,
+    onChange: () => {},
     config: {
       easing: Easing.elastic(1),
       duration: 400
