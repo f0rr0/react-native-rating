@@ -1,6 +1,6 @@
 {
   "name": "react-native-rating",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A stars rating component for react-native built with the Animated API",
   "main": "./src/rating.js",
   "scripts": {
