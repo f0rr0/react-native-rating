@@ -57,7 +57,8 @@ static propTypes = {
   starStyle: ViewPropTypes.style,
   containerStyle: ViewPropTypes.style,
   selectedStar: PropTypes.number.isRequired,
-  unselectedStar: PropTypes.number.isRequired
+  unselectedStar: PropTypes.number.isRequired,
+  onAnimationComplete: PropTypes.func
 }
 
 static defaultProps = {
@@ -73,7 +74,8 @@ static defaultProps = {
     width: 36,
     height: 36
   },
-  containerStyle: { flexDirection: 'row' }
+  containerStyle: { flexDirection: 'row' },
+  onAnimationComplete: () => {}
 }
 ```
 
