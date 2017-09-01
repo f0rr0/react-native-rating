@@ -47,7 +47,7 @@ Refer to the `propTypes` and `defaultProps` definition below:
 static propTypes = {
   max: PropTypes.number,
   initial: PropTypes.number,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   config: PropTypes.shape({
     easing: PropTypes.func.isRequired,
     duration: PropTypes.number.isRequired
@@ -64,6 +64,7 @@ static propTypes = {
 static defaultProps = {
   max: 5,
   initial: 0,
+  onChange: () => {},
   config: {
     easing: Easing.elastic(1),
     duration: 400
