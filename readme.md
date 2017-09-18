@@ -52,6 +52,7 @@ static propTypes = {
     easing: PropTypes.func.isRequired,
     duration: PropTypes.number.isRequired
   }),
+  editable: PropTypes.bool,
   stagger: PropTypes.number,
   maxScale: PropTypes.number,
   starStyle: ViewPropTypes.style,
@@ -75,6 +76,7 @@ static defaultProps = {
     width: 36,
     height: 36
   },
+  editable: true,
   containerStyle: { flexDirection: 'row' },
   onAnimationComplete: () => {}
 }

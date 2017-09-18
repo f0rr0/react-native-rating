@@ -22,7 +22,9 @@ const styles = StyleSheet.create({
 })
 
 const initializeAnimatedValues = (max, initial) =>
-  Array(max).fill(null).map((value, index) => new Animated.Value(index + 1 <= initial ? 1 : 0))
+  Array(max)
+    .fill(null)
+    .map((value, index) => new Animated.Value(index + 1 <= initial ? 1 : 0))
 
 const createAnimations = (config, values, prev, curr) => {
   if (curr > prev) {
@@ -56,6 +58,7 @@ export default class Rating extends PureComponent {
       easing: PropTypes.func.isRequired,
       duration: PropTypes.number.isRequired
     }),
+    editable: PropTypes.bool,
     stagger: PropTypes.number,
     maxScale: PropTypes.number,
     starStyle: ViewPropTypes.style,
@@ -79,6 +82,7 @@ export default class Rating extends PureComponent {
       width: 36,
       height: 36
     },
+    editable: true,
     containerStyle: { flexDirection: 'row' },
     onAnimationComplete: () => {}
   }
@@ -127,8 +131,12 @@ export default class Rating extends PureComponent {
     )
   }
 
-  renderStar = (value, index) =>
-    (<TouchableWithoutFeedback key={index} onPress={this.animate(index + 1)}>
+  renderStar = (value, index) => (
+    <TouchableWithoutFeedback
+      disabled={!this.props.editable}
+      key={index}
+      onPress={this.animate(index + 1)}
+    >
       <View style={this.props.starStyle}>
         <View style={styles.imageContainer}>
           <Animated.Image
@@ -155,13 +163,10 @@ export default class Rating extends PureComponent {
           />
         </View>
       </View>
-    </TouchableWithoutFeedback>)
+    </TouchableWithoutFeedback>
+  )
 
   render() {
-    return (
-      <View style={this.props.containerStyle}>
-        {this.animatedValues.map(this.renderStar)}
-      </View>
-    )
+    return <View style={this.props.containerStyle}>{this.animatedValues.map(this.renderStar)}</View>
   }
 }
