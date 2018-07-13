@@ -89,9 +89,16 @@ export default class Rating extends PureComponent {
 
   constructor(props) {
     super(props)
+    debugger
     this.state = {
       selected: props.initial
     }
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    debugger
+    this.animate(nextProps.initial, false)()
   }
 
   getSelectedOpacity = index =>
@@ -117,15 +124,19 @@ export default class Rating extends PureComponent {
 
   animatedValues = initializeAnimatedValues(this.props.max, this.props.initial)
 
-  animate = curr => () => {
+  animate = (curr, shouldReload) => () => {
     const { config, stagger, onChange, onAnimationComplete } = this.props
+    debugger
     const animations = createAnimations(config, this.animatedValues, this.state.selected, curr)
     this.setState(
       () => ({
         selected: curr
       }),
       () => {
-        onChange(this.state.selected)
+        debugger
+        if (shouldReload) {
+          onChange(this.state.selected)
+        }
         Animated.stagger(stagger, animations).start(() => onAnimationComplete(this.state.selected))
       }
     )
@@ -135,7 +146,7 @@ export default class Rating extends PureComponent {
     <TouchableWithoutFeedback
       disabled={!this.props.editable}
       key={index}
-      onPress={this.animate(index + 1)}
+      onPress={this.animate((index + 1), true)}
     >
       <View style={this.props.starStyle}>
         <View style={styles.imageContainer}>
