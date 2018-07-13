@@ -89,7 +89,6 @@ export default class Rating extends PureComponent {
 
   constructor(props) {
     super(props)
-    debugger
     this.state = {
       selected: props.initial
     }
@@ -97,7 +96,6 @@ export default class Rating extends PureComponent {
 
 
   componentWillReceiveProps(nextProps) {
-    debugger
     this.animate(nextProps.initial, false)()
   }
 
@@ -126,14 +124,12 @@ export default class Rating extends PureComponent {
 
   animate = (curr, shouldReload) => () => {
     const { config, stagger, onChange, onAnimationComplete } = this.props
-    debugger
     const animations = createAnimations(config, this.animatedValues, this.state.selected, curr)
     this.setState(
       () => ({
         selected: curr
       }),
       () => {
-        debugger
         if (shouldReload) {
           onChange(this.state.selected)
         }
