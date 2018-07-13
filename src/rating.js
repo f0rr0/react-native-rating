@@ -94,6 +94,11 @@ export default class Rating extends PureComponent {
     }
   }
 
+
+  componentWillReceiveProps(nextProps) {
+    this.animate(nextProps.initial, false)()
+  }
+
   getSelectedOpacity = index =>
     this.animatedValues[index].interpolate({
       inputRange: [0, 1],
@@ -117,7 +122,7 @@ export default class Rating extends PureComponent {
 
   animatedValues = initializeAnimatedValues(this.props.max, this.props.initial)
 
-  animate = curr => () => {
+  animate = (curr, shouldReload) => () => {
     const { config, stagger, onChange, onAnimationComplete } = this.props
     const animations = createAnimations(config, this.animatedValues, this.state.selected, curr)
     this.setState(
@@ -125,7 +130,9 @@ export default class Rating extends PureComponent {
         selected: curr
       }),
       () => {
-        onChange(this.state.selected)
+        if (shouldReload) {
+          onChange(this.state.selected)
+        }
         Animated.stagger(stagger, animations).start(() => onAnimationComplete(this.state.selected))
       }
     )
@@ -135,7 +142,7 @@ export default class Rating extends PureComponent {
     <TouchableWithoutFeedback
       disabled={!this.props.editable}
       key={index}
-      onPress={this.animate(index + 1)}
+      onPress={this.animate((index + 1), true)}
     >
       <View style={this.props.starStyle}>
         <View style={styles.imageContainer}>
