@@ -1,5 +1,7 @@
 # react-native-rating
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/f0rr0/react-native-rating.svg)](https://greenkeeper.io/)
+
 > Display ratings in your react-native app like a pro. Works on both iOS and Android.
 
 <p align="center">
