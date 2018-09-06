@@ -5,7 +5,8 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Easing,
-  ViewPropTypes
+  ViewPropTypes,
+  Image
 } from 'react-native'
 import PropTypes from 'prop-types'
 
@@ -15,6 +16,11 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'contain'
+  },
+  imageView: {
+    flex: 1,
+    width: null,
+    height: null
   },
   imageContainer: {
     ...StyleSheet.absoluteFillObject
@@ -63,8 +69,14 @@ export default class Rating extends PureComponent {
     maxScale: PropTypes.number,
     starStyle: ViewPropTypes.style,
     containerStyle: ViewPropTypes.style,
-    selectedStar: PropTypes.number.isRequired,
-    unselectedStar: PropTypes.number.isRequired,
+    selectedStar: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.object
+    ]).isRequired,
+    unselectedStar: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.object
+    ]).isRequired,
     onAnimationComplete: PropTypes.func
   }
 
@@ -139,34 +151,68 @@ export default class Rating extends PureComponent {
     >
       <View style={this.props.starStyle}>
         <View style={styles.imageContainer}>
-          <Animated.Image
-            style={[
-              styles.image,
-              {
-                opacity: this.getUnselectedOpacity(index),
-                transform: [{ scale: this.getScale(index) }]
-              }
-            ]}
-            source={this.props.unselectedStar}
-          />
+          { typeof this.props.unselectedStar === 'object'
+            ?
+              <Animated.View
+                style={[
+                  styles.imageView,
+                  {
+                    opacity: this.getUnselectedOpacity(index),
+                    transform: [{ scale: this.getScale(index) }]
+                  }
+                ]}
+              >
+              {this.props.unselectedStar}
+            </Animated.View>
+            :
+              <Animated.Image
+                style={[
+                  styles.image,
+                  {
+                    opacity: this.getUnselectedOpacity(index),
+                    transform: [{ scale: this.getScale(index) }]
+                  }
+                ]}
+                source={this.props.unselectedStar}
+              />
+          }
         </View>
         <View style={styles.imageContainer}>
-          <Animated.Image
-            style={[
-              styles.image,
-              {
-                opacity: this.getSelectedOpacity(index),
-                transform: [{ scale: this.getScale(index) }]
-              }
-            ]}
-            source={this.props.selectedStar}
-          />
+          { typeof this.props.selectedStar === 'object'
+            ?
+              <Animated.View
+                style={[
+                  styles.imageView,
+                  {
+                    opacity: this.getSelectedOpacity(index),
+                    transform: [{ scale: this.getScale(index) }]
+                  }
+                ]}
+              >
+                {this.props.selectedStar}
+              </Animated.View>
+            :
+              <Animated.Image
+                style={[
+                  styles.image,
+                  {
+                    opacity: this.getSelectedOpacity(index),
+                    transform: [{ scale: this.getScale(index) }]
+                  }
+                ]}
+                source={this.props.selectedStar}
+              />
+          }
         </View>
       </View>
     </TouchableWithoutFeedback>
   )
 
   render() {
-    return <View style={this.props.containerStyle}>{this.animatedValues.map(this.renderStar)}</View>
+    return (
+      <View style={this.props.containerStyle}>
+        {this.animatedValues.map(this.renderStar)}
+      </View>
+    )
   }
 }
