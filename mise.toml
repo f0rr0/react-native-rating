@@ -1,0 +1,26 @@
+min_version = { soft = "2026.7.15" }
+
+[tools]
+bun = "1.3.14"
+hk = "1.53.0"
+node = "24.18.0"
+pkl = "0.32.1"
+
+[env]
+HK_MISE = "1"
+_.path = ["{{config_root}}/node_modules/.bin"]
+
+[hooks]
+postinstall = "hk install --mise"
+
+[tasks.deps]
+description = "Install locked dependencies"
+run = "bun ci"
+
+[tasks.check]
+description = "Run all project checks"
+run = "bun run check"
+
+[tasks.fix]
+description = "Apply safe formatting and lint fixes"
+run = "bun run fix"

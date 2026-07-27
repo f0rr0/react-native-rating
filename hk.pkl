@@ -1,0 +1,43 @@
+amends "package://github.com/jdx/hk/releases/download/v1.53.0/hk@1.53.0#/Config.pkl"
+
+import "package://github.com/jdx/hk/releases/download/v1.53.0/hk@1.53.0#/Builtins.pkl"
+
+local linters = new Mapping<String, Step> {
+  ["oxfmt"] = Builtins.oxfmt
+
+  ["oxlint"] = (Builtins.ox_lint) {
+    depends = List("oxfmt")
+  }
+
+  ["tsc"] = (Builtins.tsc) {
+    depends = List("oxfmt")
+  }
+
+  ["mise"] = Builtins.mise
+  ["pkl-format"] = Builtins.pkl_format
+}
+
+hooks {
+  ["pre-commit"] {
+    fix = true
+    stash = "git"
+    steps = linters
+  }
+
+  ["pre-push"] {
+    steps {
+      ["check"] {
+        check = "bun run check"
+      }
+    }
+  }
+
+  ["check"] {
+    steps = linters
+  }
+
+  ["fix"] {
+    fix = true
+    steps = linters
+  }
+}
