@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="160" viewBox="0 0 600 160" role="img" aria-labelledby="title desc">
+  <title id="title">React Native Rating star animation</title>
+  <desc id="desc">Five white stars outlined in gray fill with gold one by one, pulse on completion, then reset for a loop.</desc>
+  <defs>
+    <style><![CDATA[
+      .outline{fill:#FFFFFF;stroke:#CBD5E1;stroke-width:5;stroke-linejoin:round}.filled{fill:#FFB31A;stroke:#C77800;stroke-width:3.5;stroke-linejoin:round;opacity:0;transform-box:fill-box;transform-origin:center}.sparkle{fill:#14B8A6;opacity:0;transform-box:fill-box;transform-origin:center}.s1{animation:fill-star-1 2500ms cubic-bezier(.2,.7,.2,1) infinite}.s2{animation:fill-star-2 2500ms cubic-bezier(.2,.7,.2,1) infinite}.s3{animation:fill-star-3 2500ms cubic-bezier(.2,.7,.2,1) infinite}.s4{animation:fill-star-4 2500ms cubic-bezier(.2,.7,.2,1) infinite}.s5{animation:fill-star-5 2500ms cubic-bezier(.2,.7,.2,1) infinite}.p1{animation:sparkle-1 2500ms cubic-bezier(.2,.7,.2,1) infinite}.p2{animation:sparkle-2 2500ms cubic-bezier(.2,.7,.2,1) infinite}.p3{animation:sparkle-3 2500ms cubic-bezier(.2,.7,.2,1) infinite}.p4{animation:sparkle-4 2500ms cubic-bezier(.2,.7,.2,1) infinite}.p5{animation:sparkle-5 2500ms cubic-bezier(.2,.7,.2,1) infinite}
+      @keyframes fill-star-1{0%,6.667%{opacity:0;transform:scale(.62) rotate(-8deg)}9.333%{opacity:1;transform:scale(1.22) rotate(5deg)}13.333%{opacity:1;transform:scale(.97) rotate(0deg)}16.667%,78.667%{opacity:1;transform:scale(1) rotate(0deg)}88%,100%{opacity:0;transform:scale(.94) rotate(0deg)}}
+@keyframes sparkle-1{0%,8%{opacity:0;transform:scale(.1)}12%{opacity:1;transform:scale(1)}18.667%,100%{opacity:0;transform:scale(1.16)}}
+@keyframes fill-star-2{0%,14.667%{opacity:0;transform:scale(.62) rotate(-8deg)}17.333%{opacity:1;transform:scale(1.22) rotate(5deg)}21.333%{opacity:1;transform:scale(.97) rotate(0deg)}24.667%,78.667%{opacity:1;transform:scale(1) rotate(0deg)}88%,100%{opacity:0;transform:scale(.94) rotate(0deg)}}
+@keyframes sparkle-2{0%,16%{opacity:0;transform:scale(.1)}20%{opacity:1;transform:scale(1)}26.667%,100%{opacity:0;transform:scale(1.16)}}
+@keyframes fill-star-3{0%,22.667%{opacity:0;transform:scale(.62) rotate(-8deg)}25.333%{opacity:1;transform:scale(1.22) rotate(5deg)}29.333%{opacity:1;transform:scale(.97) rotate(0deg)}32.667%,78.667%{opacity:1;transform:scale(1) rotate(0deg)}88%,100%{opacity:0;transform:scale(.94) rotate(0deg)}}
+@keyframes sparkle-3{0%,24%{opacity:0;transform:scale(.1)}28%{opacity:1;transform:scale(1)}34.667%,100%{opacity:0;transform:scale(1.16)}}
+@keyframes fill-star-4{0%,30.667%{opacity:0;transform:scale(.62) rotate(-8deg)}33.333%{opacity:1;transform:scale(1.22) rotate(5deg)}37.333%{opacity:1;transform:scale(.97) rotate(0deg)}40.667%,78.667%{opacity:1;transform:scale(1) rotate(0deg)}88%,100%{opacity:0;transform:scale(.94) rotate(0deg)}}
+@keyframes sparkle-4{0%,32%{opacity:0;transform:scale(.1)}36%{opacity:1;transform:scale(1)}42.667%,100%{opacity:0;transform:scale(1.16)}}
+@keyframes fill-star-5{0%,38.667%{opacity:0;transform:scale(.62) rotate(-8deg)}41.333%{opacity:1;transform:scale(1.22) rotate(5deg)}45.333%{opacity:1;transform:scale(.97) rotate(0deg)}48.667%,78.667%{opacity:1;transform:scale(1) rotate(0deg)}88%,100%{opacity:0;transform:scale(.94) rotate(0deg)}}
+@keyframes sparkle-5{0%,40%{opacity:0;transform:scale(.1)}44%{opacity:1;transform:scale(1)}50.667%,100%{opacity:0;transform:scale(1.16)}}
+    ]]></style>
+  </defs>
+  <polygon class="outline" points="120.00,40.00 130.58,65.44 158.04,67.64 137.12,85.56 143.51,112.36 120.00,98.00 96.49,112.36 102.88,85.56 81.96,67.64 109.42,65.44" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="5" stroke-linejoin="round"/>
+  <polygon class="outline" points="210.00,40.00 220.58,65.44 248.04,67.64 227.12,85.56 233.51,112.36 210.00,98.00 186.49,112.36 192.88,85.56 171.96,67.64 199.42,65.44" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="5" stroke-linejoin="round"/>
+  <polygon class="outline" points="300.00,40.00 310.58,65.44 338.04,67.64 317.12,85.56 323.51,112.36 300.00,98.00 276.49,112.36 282.88,85.56 261.96,67.64 289.42,65.44" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="5" stroke-linejoin="round"/>
+  <polygon class="outline" points="390.00,40.00 400.58,65.44 428.04,67.64 407.12,85.56 413.51,112.36 390.00,98.00 366.49,112.36 372.88,85.56 351.96,67.64 379.42,65.44" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="5" stroke-linejoin="round"/>
+  <polygon class="outline" points="480.00,40.00 490.58,65.44 518.04,67.64 497.12,85.56 503.51,112.36 480.00,98.00 456.49,112.36 462.88,85.56 441.96,67.64 469.42,65.44" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="5" stroke-linejoin="round"/>
+  <g class="sparkle p1" fill="#14B8A6" opacity="0"><circle cx="86" cy="46" r="3.5"/><circle cx="155" cy="55" r="2.5"/><circle cx="144" cy="116" r="2.75"/></g>
+  <g class="sparkle p2" fill="#14B8A6" opacity="0"><circle cx="176" cy="46" r="3.5"/><circle cx="245" cy="55" r="2.5"/><circle cx="234" cy="116" r="2.75"/></g>
+  <g class="sparkle p3" fill="#14B8A6" opacity="0"><circle cx="266" cy="46" r="3.5"/><circle cx="335" cy="55" r="2.5"/><circle cx="324" cy="116" r="2.75"/></g>
+  <g class="sparkle p4" fill="#14B8A6" opacity="0"><circle cx="356" cy="46" r="3.5"/><circle cx="425" cy="55" r="2.5"/><circle cx="414" cy="116" r="2.75"/></g>
+  <g class="sparkle p5" fill="#14B8A6" opacity="0"><circle cx="446" cy="46" r="3.5"/><circle cx="515" cy="55" r="2.5"/><circle cx="504" cy="116" r="2.75"/></g>
+  <polygon class="filled s1" points="120.00,40.00 130.58,65.44 158.04,67.64 137.12,85.56 143.51,112.36 120.00,98.00 96.49,112.36 102.88,85.56 81.96,67.64 109.42,65.44" fill="#FFB31A" stroke="#C77800" stroke-width="3.5" stroke-linejoin="round" opacity="0"/>
+  <polygon class="filled s2" points="210.00,40.00 220.58,65.44 248.04,67.64 227.12,85.56 233.51,112.36 210.00,98.00 186.49,112.36 192.88,85.56 171.96,67.64 199.42,65.44" fill="#FFB31A" stroke="#C77800" stroke-width="3.5" stroke-linejoin="round" opacity="0"/>
+  <polygon class="filled s3" points="300.00,40.00 310.58,65.44 338.04,67.64 317.12,85.56 323.51,112.36 300.00,98.00 276.49,112.36 282.88,85.56 261.96,67.64 289.42,65.44" fill="#FFB31A" stroke="#C77800" stroke-width="3.5" stroke-linejoin="round" opacity="0"/>
+  <polygon class="filled s4" points="390.00,40.00 400.58,65.44 428.04,67.64 407.12,85.56 413.51,112.36 390.00,98.00 366.49,112.36 372.88,85.56 351.96,67.64 379.42,65.44" fill="#FFB31A" stroke="#C77800" stroke-width="3.5" stroke-linejoin="round" opacity="0"/>
+  <polygon class="filled s5" points="480.00,40.00 490.58,65.44 518.04,67.64 497.12,85.56 503.51,112.36 480.00,98.00 456.49,112.36 462.88,85.56 441.96,67.64 469.42,65.44" fill="#FFB31A" stroke="#C77800" stroke-width="3.5" stroke-linejoin="round" opacity="0"/>
+</svg>

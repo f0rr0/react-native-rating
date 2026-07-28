@@ -6,6 +6,10 @@ Accessible React Native star rating, drag rating, and semantic feedback scale fo
 
 Fractional values, RTL and vertical layouts, keyboard and screen-reader support, a FlatList-friendly display path, and zero runtime dependencies.
 
+<p align="center">
+  <img src="./assets/star-rating-readme.svg" width="420" alt="Five outlined stars filling with gold one by one" />
+</p>
+
 ## Why this rating component?
 
 - **One accessible control.** Native assistive technologies get an adjustable control; the Web gets a real ARIA slider with keyboard input.
@@ -20,14 +24,6 @@ Fractional values, RTL and vertical layouts, keyboard and screen-reader support,
 
 ```sh
 npm install react-native-rating
-```
-
-```sh
-yarn add react-native-rating
-```
-
-```sh
-bun add react-native-rating
 ```
 
 The package requires React 19.1.1 or newer and React Native 0.82 or newer. It uses only React and React Native core APIs, so Expo projects need no native module setup. React Native Web support assumes the application already has its normal Web target configured.
@@ -377,22 +373,6 @@ The components own their root responder, keyboard, accessibility, focusability, 
 - Reduced-motion state uses one shared native subscription, regardless of the number of interactive ratings.
 
 For large lists, prefer `RatingDisplay`, keep `items` arrays and `renderItem` callbacks stable, and give the list a stable `keyExtractor`.
-
-## Feature comparison
-
-This is a source-level comparison of the versions audited on 2026-07-28, not a popularity claim. “Partial” means the package covers some of the behavior but not the complete row.
-
-| Capability | `react-native-rating` | [`react-native-star-rating-widget` 1.11.0](https://github.com/bviebahn/react-native-star-rating-widget/tree/c8906b677061ca7ac252c191419495e8cdefa381) | [`@kolking/react-native-rating` 1.4.1](https://github.com/kolking/react-native-rating/tree/19382752e7a47cd5370d0e5206fc107ad52be3e2) | [`react-native-ratings` 8.1.0](https://github.com/Monte9/react-native-ratings/tree/0a8f16b4380626556b636e8883b06c0db9e885ec) |
-| --- | --- | --- | --- | --- |
-| No required third-party runtime package | Yes | No; requires `react-native-svg` | Yes | No; depends on `lodash` |
-| Deliberate, cross-axis-aware drag ownership | Yes | No; start/move capture is unconditional | No; starts immediately and refuses termination | No; starts immediately |
-| Fraction selection and visual fill share one exact model | Yes, `0.01`–`1` | Fixed full/half/quarter | Partial; decimal display, whole-item input | Partial; an [open issue](https://github.com/Monte9/react-native-ratings/issues/155) reports jump/UI divergence |
-| Dedicated allocation-light static component | Yes | Yes | No; uses `disabled` on the interactive component | No; `readonly` stays in the swipe component |
-| Native adjustable semantics plus Web ARIA slider keys | Yes | Partial; native actions, no direct Web key handler in audited source | No control semantics in audited source | No; [accessibility remains open](https://github.com/Monte9/react-native-ratings/issues/172) |
-| Explicit LTR/RTL override and vertical orientation | Yes | Partial; automatic RTL, horizontal | Partial; automatic RTL, horizontal | No; [RTL issue open](https://github.com/Monte9/react-native-ratings/issues/81) |
-| Generic NPS/Likert/emoji scale with `null`, zero, negatives, and strings | Yes | No | No | No; [bidirectional scale request open](https://github.com/Monte9/react-native-ratings/issues/189) |
-
-See the dated [competitive analysis](./docs/COMPETITIVE_ANALYSIS.md) for the search method, source audit, issue evidence, and positioning decisions. See the [architecture and release plan](./docs/ARCHITECTURE.md) for interaction, performance, accessibility, and QA invariants.
 
 ## Compatibility
 
