@@ -2,13 +2,13 @@
 
 [![npm version](https://img.shields.io/npm/v/react-native-rating.svg)](https://www.npmjs.com/package/react-native-rating) [![npm downloads](https://img.shields.io/npm/dm/react-native-rating.svg)](https://www.npmjs.com/package/react-native-rating) [![CI](https://github.com/f0rr0/react-native-rating/actions/workflows/ci.yml/badge.svg)](https://github.com/f0rr0/react-native-rating/actions/workflows/ci.yml) [![license](https://img.shields.io/npm/l/react-native-rating.svg)](./LICENSE.md)
 
-Accessible React Native star rating, drag rating, and semantic feedback scale for iOS, Android, Expo, and React Native Web.
-
-Fractional values, RTL and vertical layouts, keyboard and screen-reader support, a FlatList-friendly display path, and zero runtime dependencies.
-
 <p align="center">
   <img src="./assets/star-rating-readme.svg" width="420" alt="Five outlined stars filling with gold one by one" />
 </p>
+
+Accessible React Native star rating, drag rating, and semantic feedback scale for iOS, Android, Expo, and React Native Web.
+
+Fractional values, RTL and vertical layouts, keyboard and screen-reader support, a FlatList-friendly display path, and zero runtime dependencies.
 
 ## Why this rating component?
 
@@ -66,6 +66,10 @@ The example also provides `bun run ios` and `bun run android` scripts for local 
 
 Tap is the conservative default. Add `interactionMode="tap-and-drag"` when scrubbing across the rating is useful:
 
+<p align="center">
+  <img src="./assets/readme/rating-input.png" width="360" alt="Simulator crop showing quarter step drag, tap-only, ten-point, and uncontrolled default rating inputs" />
+</p>
+
 ```tsx
 <Rating
   accessibilityLabel="Photo rating"
@@ -103,6 +107,10 @@ Tap is the conservative default. Add `interactionMode="tap-and-drag"` when scrub
 
 Horizontal fill and pointer progression follow `direction`. Vertical ratings progress from bottom to top, so Up Arrow and the native increment action both move upward. On `RatingScale`, `reversed` remaps the ordered semantic choices without reversing pointer geometry or locale direction.
 
+<p align="center">
+  <img src="./assets/readme/custom-renderers.png" width="360" alt="Simulator crop showing RTL hearts, custom block fill, vertical drag, and a no-animation rating" />
+</p>
+
 ## Accessible on native and Web
 
 Interactive ratings have one focus stop, not one stop per star:
@@ -124,6 +132,10 @@ Always provide a useful `accessibilityLabel`. Localize the spoken value with `fo
 ```
 
 Use `disabled` for a temporarily unavailable input. Use `RatingDisplay` or `readOnly` for content that is not an input.
+
+<p align="center">
+  <img src="./assets/readme/accessibility-formatting.png" width="420" alt="Simulator crop showing formatted accessible values for a percent rating and a scale formatter" />
+</p>
 
 ## FlatList: interactive rows and exact displays
 
@@ -186,6 +198,10 @@ import { RatingDisplay } from "react-native-rating";
 
 `<Rating readOnly />` also selects the static path, but `RatingDisplay` makes the intent clearest in list cells and aggregate views. When adjacent text already communicates the same value, pass `decorative` to hide the duplicate visual from assistive technology:
 
+<p align="center">
+  <img src="./assets/readme/read-only-display.png" width="360" alt="Simulator crop showing exact, snapped, decorative, disabled, and read-only rating displays" />
+</p>
+
 ```tsx
 <Text>4.37 out of 5</Text>
 <RatingDisplay decorative value={4.37} />
@@ -194,6 +210,10 @@ import { RatingDisplay } from "react-native-rating";
 ## NPS, Likert, and emoji scales
 
 `RatingScale` is generic over finite numbers or strings. `null` means “no selection,” so zero and negative values remain first-class answers.
+
+<p align="center">
+  <img src="./assets/readme/semantic-scales.png" width="360" alt="Simulator crop showing emoji, NPS, Likert, and reversed priority rating scales" />
+</p>
 
 ### Net Promoter Score
 
@@ -245,6 +265,10 @@ const EXPERIENCE = [
 Use `selectionMode="single"` for one highlighted choice (the default), or `selectionMode="cumulative"` for star-like fill through the selected item. Each nonblank `label` supplies semantic meaning even when `content` is only an emoji or icon.
 
 `itemExtent` controls each choice's primary-axis length independently of `size`. Increase it for longer labels in a horizontal scale without inflating the cross-axis target. It is never smaller than `size`; for a long custom vertical presentation, use `renderItem` and its `itemExtent` value to lay out the content deliberately. A read-only scale can also be `decorative` when equivalent adjacent content is already accessible.
+
+<p align="center">
+  <img src="./assets/readme/scale-states.png" width="360" alt="Simulator crop showing a vertical RatingScale with a selected semantic value" />
+</p>
 
 ## Custom rendering
 
