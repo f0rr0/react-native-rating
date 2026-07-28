@@ -6,6 +6,10 @@ Accessible React Native star rating, drag rating, and semantic feedback scale fo
 
 Fractional values, RTL and vertical layouts, keyboard and screen-reader support, a FlatList-friendly display path, and zero runtime dependencies.
 
+<p align="center">
+  <img src="./assets/star-rating-readme.svg" width="420" alt="Five outlined stars filling with gold one by one" />
+</p>
+
 ## Why this rating component?
 
 - **One accessible control.** Native assistive technologies get an adjustable control; the Web gets a real ARIA slider with keyboard input.
