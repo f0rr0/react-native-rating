@@ -1,15 +1,28 @@
 {
   "name": "react-native-rating",
   "version": "3.0.0",
-  "description": "A small, accessible rating input for modern React Native.",
+  "description": "Accessible React Native star rating, drag rating, and semantic feedback scale for iOS, Android, Expo, and React Native Web.",
   "keywords": [
     "accessibility",
     "android",
     "component",
+    "emoji-rating",
+    "expo",
+    "fractional-rating",
+    "gesture",
+    "half-stars",
     "ios",
+    "likert",
+    "nps",
     "rating",
+    "rating-input",
     "react-native",
-    "stars"
+    "react-native-web",
+    "rtl",
+    "slider",
+    "star-rating",
+    "stars",
+    "typescript"
   ],
   "homepage": "https://github.com/f0rr0/react-native-rating#readme",
   "bugs": {
@@ -24,6 +37,7 @@
   "files": [
     "lib",
     "src",
+    "docs",
     "CHANGELOG.md",
     "LICENSE.md",
     "README.md"
@@ -94,7 +108,9 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/rating.tsx"
+      "src/**/*.{ts,tsx}",
+      "!src/index.ts",
+      "!src/types.ts"
     ],
     "coverageDirectory": "coverage",
     "coverageReporters": [

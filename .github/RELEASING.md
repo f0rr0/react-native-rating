@@ -25,7 +25,7 @@ After `release.yml` is on `master` and before merging the first release pull req
    ```
 
 4. Keep Actions' default token read-only and allow Actions to create pull requests. The release job grants only the three write permissions it needs: contents, issues, and pull requests.
-5. Require `Check`, `React Native (minimum)`, `React Native (current)`, and `Dependency review` on `master`, and protect `v*` tags from deletion or force updates.
+5. Require `Check`, `React Native (minimum)`, `React Native (current)`, `Expo Web`, and `Dependency review` on `master`, and protect `v*` tags from deletion or force updates.
 
 The first automated pull request may require a maintainer to approve its CI run because it is opened with `GITHUB_TOKEN`.
 
