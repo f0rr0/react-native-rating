@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "a07d5dc89eec88bff2fa4da65a079028c19d4976",
+  "include-component-in-tag": false,
+  "include-v-in-tag": true,
+  "pull-request-footer": "Merging this pull request creates the tag and GitHub release.",
+  "pull-request-header": "Prepare the next release.",
+  "release-type": "node",
+  "packages": {
+    ".": {}
+  }
+}

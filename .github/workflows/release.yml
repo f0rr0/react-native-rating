@@ -1,0 +1,181 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing stable release tag to publish or retry
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release metadata
+    if: github.event_name == 'push'
+    permissions:
+      contents: write # Create tags and GitHub Releases.
+      issues: write # Manage Release Please lifecycle labels.
+      pull-requests: write # Create and update the release pull request.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Ensure release labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create "autorelease: pending" \
+            --color fbca04 \
+            --description "Release pull request awaiting merge" \
+            --force \
+            --repo "$GITHUB_REPOSITORY"
+          gh label create "autorelease: tagged" \
+            --color 0e8a16 \
+            --description "Release pull request published and tagged" \
+            --force \
+            --repo "$GITHUB_REPOSITORY"
+      - id: release
+        name: Prepare or create release
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  package:
+    name: Verify release package
+    if: >-
+      always() && github.ref == 'refs/heads/master' && (
+        needs.release.outputs.release_created == 'true' ||
+        github.event_name == 'workflow_dispatch'
+      )
+    needs: release
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      package_spec: ${{ steps.verify.outputs.package_spec }}
+      tag: ${{ steps.release.outputs.tag }}
+    steps:
+      - id: release
+        name: Resolve release tag
+        env:
+          AUTOMATED_TAG: ${{ needs.release.outputs.tag }}
+          REQUESTED_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          release_tag="${AUTOMATED_TAG:-$REQUESTED_TAG}"
+          if [[ ! "$release_tag" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "Expected a stable SemVer tag such as v3.0.0." >&2
+            exit 1
+          fi
+          printf 'tag=%s\n' "$release_tag" >> "$GITHUB_OUTPUT"
+      - name: Check out release tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ steps.release.outputs.tag }}
+      - name: Install toolchain
+        uses: jdx/mise-action@9e7f7633ff6f6d6048a9418a68d48f288f50eb14 # v4.2.3
+        with:
+          cache: false
+          version: 2026.7.15
+      - id: verify
+        name: Verify release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          set -euo pipefail
+          package_version="$(node -p "require('./package.json').version")"
+          test "$RELEASE_TAG" = "v$package_version"
+          git show-ref --quiet --verify "refs/tags/$RELEASE_TAG"
+          git merge-base --is-ancestor \
+            "$(git rev-parse "$RELEASE_TAG^{commit}")" \
+            refs/remotes/origin/master
+          release_state="$(
+            gh release view "$RELEASE_TAG" \
+              --json isDraft,isPrerelease \
+              --jq '[.isDraft, .isPrerelease] | @tsv'
+          )"
+          test "$release_state" = $'false\tfalse'
+          package_name="$(node -p "require('./package.json').name")"
+          printf 'package_spec=%s@%s\n' \
+            "$package_name" \
+            "$package_version" >> "$GITHUB_OUTPUT"
+      - name: Install dependencies
+        run: bun ci --ignore-scripts
+      - name: Check source and package
+        run: mise run check
+      - name: Pack release
+        run: |
+          mkdir -p "$RUNNER_TEMP/package"
+          bun pm pack \
+            --filename "$RUNNER_TEMP/package/react-native-rating.tgz" \
+            --ignore-scripts
+      - name: Upload release package
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          if-no-files-found: error
+          name: release-package
+          path: ${{ runner.temp }}/package/react-native-rating.tgz
+          retention-days: 1
+
+  publish:
+    name: Publish to npm
+    needs: package
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write # Exchange GitHub OIDC identity for short-lived npm auth.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Download release package
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-package
+          path: ${{ runner.temp }}/package
+      - name: Configure npm
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.18.0
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+      - name: Publish with trusted publishing
+        env:
+          PACKAGE_SPEC: ${{ needs.package.outputs.package_spec }}
+          PACKAGE_TARBALL: ${{ runner.temp }}/package/react-native-rating.tgz
+        run: |
+          set -euo pipefail
+          if published_integrity="$(npm view "$PACKAGE_SPEC" dist.integrity 2>/dev/null)"; then
+            local_integrity="$(
+              node --input-type=commonjs - "$PACKAGE_TARBALL" <<'NODE'
+          const { createHash } = require("node:crypto");
+          const { readFileSync } = require("node:fs");
+          const tarball = readFileSync(process.argv[2]);
+          process.stdout.write(
+            `sha512-${createHash("sha512").update(tarball).digest("base64")}`
+          );
+          NODE
+            )"
+            if test "$published_integrity" != "$local_integrity"; then
+              echo "$PACKAGE_SPEC exists with a different tarball." >&2
+              exit 1
+            fi
+            echo "$PACKAGE_SPEC is already published with the checked tarball."
+            exit 0
+          fi
+          npm publish "$PACKAGE_TARBALL" --access public --ignore-scripts

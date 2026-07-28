@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "exactOptionalPropertyTypes": true,
+    "jsx": "react-jsx",
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "skipLibCheck": false,
+    "strict": true,
+    "target": "ESNext"
+  },
+  "include": ["index.tsx"]
+}
