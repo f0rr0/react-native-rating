@@ -1,10 +1,10 @@
-<p align="center">
-  <img src="./assets/star-rating-readme.svg" width="420" alt="Five outlined stars filling with gold one by one" />
-</p>
-
 # React Native Rating
 
 [![npm version](https://img.shields.io/npm/v/react-native-rating.svg)](https://www.npmjs.com/package/react-native-rating) [![npm downloads](https://img.shields.io/npm/dm/react-native-rating.svg)](https://www.npmjs.com/package/react-native-rating) [![CI](https://github.com/f0rr0/react-native-rating/actions/workflows/ci.yml/badge.svg)](https://github.com/f0rr0/react-native-rating/actions/workflows/ci.yml) [![license](https://img.shields.io/npm/l/react-native-rating.svg)](./LICENSE.md)
+
+<p align="center">
+  <img src="./assets/star-rating-readme.svg" width="420" alt="Five outlined stars filling with gold one by one" />
+</p>
 
 Accessible React Native star rating, drag rating, and semantic feedback scale for iOS, Android, Expo, and React Native Web.
 
