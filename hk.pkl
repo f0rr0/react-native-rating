@@ -11,7 +11,7 @@ local linters = new Mapping<String, Step> {
 
   ["tsc"] = (Builtins.tsc) {
     depends = List("oxfmt")
-    exclude = List(".github/fixtures/**")
+    exclude = List(".github/fixtures/**", "example/**")
   }
 
   ["mise"] = Builtins.mise

@@ -1,0 +1,28 @@
+{
+  "name": "react-native-rating-example",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "android": "expo start --android",
+    "export:web": "expo export --platform web --output-dir dist",
+    "ios": "expo start --ios",
+    "start": "expo start",
+    "typecheck": "tsc --noEmit",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "57.0.7",
+    "expo": "57.0.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-native": "0.86.2",
+    "react-native-rating": "file:..",
+    "react-native-web": "0.21.2"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "typescript": "7.0.2"
+  },
+  "packageManager": "bun@1.3.14"
+}

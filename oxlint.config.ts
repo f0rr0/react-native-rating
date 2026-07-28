@@ -5,7 +5,12 @@ import react from "ultracite/oxlint/react";
 
 export default defineConfig({
   extends: [core, react, jest],
-  ignorePatterns: [...(core.ignorePatterns ?? []), "coverage/**", "lib/**"],
+  ignorePatterns: [
+    ...(core.ignorePatterns ?? []),
+    "coverage/**",
+    "example/**",
+    "lib/**",
+  ],
   options: {
     typeAware: true,
   },
