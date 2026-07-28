@@ -1,6 +1,6 @@
 {
   "name": "react-native-rating",
-  "version": "3.0.0",
+  "version": "2.0.4",
   "description": "A small, accessible rating input for modern React Native.",
   "keywords": [
     "accessibility",
@@ -24,6 +24,7 @@
   "files": [
     "lib",
     "src",
+    "CHANGELOG.md",
     "LICENSE.md",
     "README.md"
   ],
@@ -53,7 +54,7 @@
   },
   "scripts": {
     "build": "bob build",
-    "check": "bun run format:check && bun run lint && bun run typecheck && bun run test && bun run package:check",
+    "check": "bun run format:check && bun run lint && bun run typecheck && bun run test:coverage && bun run package:check && bun run tooling:check",
     "fix": "ultracite fix --deny-warnings",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
@@ -62,7 +63,9 @@
     "package:check": "bun run build && publint --strict && attw --pack",
     "prepare": "bun run build",
     "test": "jest --runInBand",
+    "test:coverage": "jest --runInBand --coverage",
     "test:watch": "jest --watch",
+    "tooling:check": "hk validate && shellcheck .github/scripts/*.sh && actionlint && zizmor --pedantic --no-online-audits --collect=all .github",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
@@ -90,6 +93,23 @@
     "react-native": ">=0.82.0"
   },
   "jest": {
+    "collectCoverageFrom": [
+      "src/rating.tsx"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "json-summary",
+      "lcov"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
     "modulePathIgnorePatterns": [
       "<rootDir>/lib/"
     ],

@@ -101,6 +101,8 @@ mise run check
 
 `bun run fix` applies the Ultracite Oxlint/Oxfmt rules.
 
+Releases use a reviewable Release Please pull request and npm trusted publishing. See [the release guide](https://github.com/f0rr0/react-native-rating/blob/master/.github/RELEASING.md).
+
 ## License
 
 MIT

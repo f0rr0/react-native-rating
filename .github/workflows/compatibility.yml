@@ -1,22 +1,20 @@
-name: CI
+name: Compatibility
 
 on:
-  merge_group:
-  pull_request:
-  push:
-    branches:
-      - master
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.event.pull_request.number || github.ref }}
+  group: compatibility-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  check:
-    name: Check
+  package:
+    name: Package
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -31,57 +29,60 @@ jobs:
           version: 2026.7.15
       - name: Install dependencies
         run: bun ci --ignore-scripts
-      - name: Check source and package
-        run: mise run check
-      - name: Add coverage summary
-        run: |
-          node --input-type=commonjs <<'NODE' >> "$GITHUB_STEP_SUMMARY"
-          const { total } = require("./coverage/coverage-summary.json");
-          const metrics = ["statements", "branches", "functions", "lines"];
-          console.log("## Coverage\n");
-          console.log("| Metric | Covered |\n| --- | ---: |");
-          for (const metric of metrics) {
-            console.log(`| ${metric} | ${total[metric].pct}% |`);
-          }
-          NODE
+      - name: Check package
+        run: bun run package:check
       - name: Pack checked package
         run: |
           mkdir -p "$RUNNER_TEMP/package"
           bun pm pack \
             --filename "$RUNNER_TEMP/package/react-native-rating.tgz" \
             --ignore-scripts
-      - name: Upload coverage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          if-no-files-found: error
-          name: coverage
-          path: coverage
-          retention-days: 14
       - name: Upload package
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           if-no-files-found: error
           name: package
           path: ${{ runner.temp }}/package/react-native-rating.tgz
-          retention-days: 7
+          retention-days: 1
 
   compatibility:
-    name: React Native (${{ matrix.label }})
-    needs: check
+    name: React Native ${{ matrix.react-native }}
+    continue-on-error: ${{ matrix.experimental }}
+    needs: package
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
         include:
-          - label: minimum
+          - experimental: false
             react: 19.1.1
             react-native: 0.82.1
             react-types: 19.1.17
-          - label: current
-            react: current
-            react-native: current
-            react-types: current
+          - experimental: false
+            react: 19.2.8
+            react-native: 0.83.10
+            react-types: 19.2.17
+          - experimental: false
+            react: 19.2.8
+            react-native: 0.84.1
+            react-types: 19.2.17
+          - experimental: false
+            react: 19.2.8
+            react-native: 0.85.3
+            react-types: 19.2.17
+          - experimental: false
+            react: 19.2.8
+            react-native: 0.86.2
+            react-types: 19.2.17
+          - experimental: true
+            react: 19.2.8
+            react-native: next
+            react-types: 19.2.17
+          - experimental: true
+            react: 19.2.8
+            react-native: nightly
+            react-types: 19.2.17
     steps:
       - name: Check out compatibility fixture
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -104,18 +105,3 @@ jobs:
           REACT_TYPES_VERSION: ${{ matrix.react-types }}
           REACT_VERSION: ${{ matrix.react }}
         run: bash .github/scripts/check-package.sh
-
-  dependency-review:
-    name: Dependency review
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Review dependency changes
-        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
-        with:
-          fail-on-severity: high

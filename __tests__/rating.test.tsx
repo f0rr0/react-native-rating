@@ -1,15 +1,20 @@
-import { describe, expect, it, jest } from "@jest/globals";
+import { afterEach, describe, expect, it, jest } from "@jest/globals";
 import {
+  act,
   fireEvent,
   render,
   screen,
   userEvent,
 } from "@testing-library/react-native";
-import { Text } from "react-native";
+import { AccessibilityInfo, Animated, I18nManager, Text } from "react-native";
 
 import { Rating } from "../src";
 
 describe("rating", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it("exposes a concise adjustable accessibility control", async () => {
     await render(<Rating animated={false} defaultValue={2} testID="rating" />);
 
@@ -80,6 +85,42 @@ describe("rating", () => {
       nativeEvent: { locationX: 8 },
     });
     expect(onChange).toHaveBeenCalledWith(2.5);
+  });
+
+  it("mirrors fractional fill and press position in right-to-left layouts", async () => {
+    const onChange = jest.fn<(value: number) => void>();
+
+    jest.replaceProperty(I18nManager, "isRTL", true);
+
+    await render(
+      <Rating
+        animated={false}
+        max={3}
+        onChange={onChange}
+        renderItem={({ fill, index }) => (
+          <Text testID={`rtl-fill-${index}`}>{fill}</Text>
+        )}
+        size={40}
+        step={0.5}
+        testID="rating"
+        value={1.5}
+      />
+    );
+
+    expect(screen.getByTestId("rating")).toHaveStyle({
+      flexDirection: "row-reverse",
+    });
+    expect(screen.getByTestId("rtl-fill-1")).toHaveTextContent("0.5");
+
+    await fireEvent.press(screen.getByTestId("rating-item-3"), {
+      nativeEvent: { locationX: 4 },
+    });
+    await fireEvent.press(screen.getByTestId("rating-item-3"), {
+      nativeEvent: { locationX: 40 },
+    });
+
+    expect(onChange).toHaveBeenNthCalledWith(1, 3);
+    expect(onChange).toHaveBeenNthCalledWith(2, 2.5);
   });
 
   it("keeps non-divisor steps inside the pressed item", async () => {
@@ -232,6 +273,93 @@ describe("rating", () => {
       nativeEvent: { actionName: "decrement" },
     });
     expect(onChange).toHaveBeenLastCalledWith(2);
+  });
+
+  it("honors reduced-motion changes and cleans up animation resources", async () => {
+    const animationStart =
+      jest.fn<ReturnType<typeof Animated.timing>["start"]>();
+    const animationStop = jest.fn<ReturnType<typeof Animated.timing>["stop"]>();
+    const removeSubscription = jest.fn<() => void>();
+    const originalTiming = Animated.timing;
+    jest
+      .spyOn(AccessibilityInfo, "isReduceMotionEnabled")
+      .mockResolvedValue(false);
+    const subscribe = jest
+      .spyOn(AccessibilityInfo, "addEventListener")
+      .mockReturnValue({ remove: removeSubscription });
+    const timing = jest
+      .spyOn(Animated, "timing")
+      .mockImplementation((value, config) => ({
+        ...originalTiming(value, config),
+        start: animationStart,
+        stop: animationStop,
+      }));
+
+    subscribe.mockClear();
+    timing.mockClear();
+
+    const view = await render(<Rating max={1} testID="rating" value={0} />);
+
+    expect(subscribe).toHaveBeenCalledWith(
+      "reduceMotionChanged",
+      expect.any(Function)
+    );
+
+    const reduceMotionListener = subscribe.mock.calls[0]?.[1];
+
+    expect(reduceMotionListener).toBeDefined();
+    await act(() => {
+      reduceMotionListener?.(false);
+    });
+    await view.rerender(<Rating max={1} testID="rating" value={1} />);
+
+    expect(timing).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        duration: 160,
+        isInteraction: false,
+        toValue: 1,
+        useNativeDriver: true,
+      })
+    );
+    expect(animationStart).toHaveBeenCalledTimes(1);
+
+    await view.unmount();
+
+    expect({
+      animationStops: animationStop.mock.calls.length,
+      subscriptionsRemoved: removeSubscription.mock.calls.length,
+    }).toStrictEqual({
+      animationStops: 1,
+      subscriptionsRemoved: 1,
+    });
+  });
+
+  it("forwards native view props and style to the root", async () => {
+    const onLayout = jest.fn();
+
+    await render(
+      <Rating
+        accessibilityHint="Swipe up or down to change"
+        animated={false}
+        nativeID="product-rating"
+        onLayout={onLayout}
+        pointerEvents="box-none"
+        style={{ marginTop: 12 }}
+        testID="rating"
+      />
+    );
+
+    const rating = screen.getByTestId("rating");
+
+    expect(rating).toHaveProp(
+      "accessibilityHint",
+      "Swipe up or down to change"
+    );
+    expect(rating).toHaveProp("nativeID", "product-rating");
+    expect(rating).toHaveProp("onLayout", onLayout);
+    expect(rating).toHaveProp("pointerEvents", "box-none");
+    expect(rating).toHaveStyle({ marginTop: 12 });
   });
 
   it("normalizes unsafe runtime values", async () => {
