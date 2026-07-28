@@ -3,6 +3,8 @@
 .mise.local.toml
 .vscode
 coverage
+example/.expo
+example/dist
 lib
 node_modules
 npm-debug.log

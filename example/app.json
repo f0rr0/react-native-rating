@@ -4,7 +4,7 @@
     "slug": "react-native-rating-example",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "web": {
       "bundler": "metro",
